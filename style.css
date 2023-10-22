@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Bitter&display=swap');
+
+input{
+    margin: 10px;
+    height: 40px;
+    width: 400px;
+    font-size: 20px;
+}
+
+button {
+    width: 250px;
+    height: 75px;
+    margin: 15px;
+    font-family: "Bitter", sans-serif;
+    color: white;
+    font-size: 20px;
+    border: none;
+    border-radius: 10px;
+}
+    button:nth-child(1n) {
+        background-color: blue;
+    }
+    button:nth-child(2n) {
+        background-color: green;
+    }
+    button:nth-child(3n) {
+        background-color: orange;
+    }
+    button:hover {
+        background-color: red;
+    }
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100vh;
+    flex-direction: column;
+    font-family: "Bitter", sans-serif;
+}
+
+.btn-group {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: center; /* Выравнивание по горизонтали */
+    align-items: center; /* Выравнивание по вертикали */
+    height: 100px; /* Высота блока */
+}
+    .card-footer button:nth-child(1n) {
+        background-color: royalblue;
+    }
+
+    .card-footer button:nth-child(2n) {
+        background-color: black;
+    }
+
+    .card-footer button:hover {
+        background-color: red;
+    }

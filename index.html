@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Угадайка</title>
+    <link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+    <div class="container">
+        <input type="number" class="fisrtValue" />
+        <input type="number" class="secondValue" />
+        <div class="row game-card align-items-center">
+            <div class="col col-md-4 offset-md-4">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <p class="m-0">Вопрос №<span id="orderNumberField">0</span></p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row no-gutters">
+                            <div class="col">
+                                <h3 class="card-title m-0"><span id="answerField">Введие 2 числа, сначала нижнию границу, потом верхнию</span></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="btn-group">
+                            <button class="btn btn-info" id="btnLess">&#129047;<br>меньше</button>
+                            <button class="btn btn-success btn-lg" id="btnEqual">Верно!</button>
+                            <button class="btn btn-info" id="btnOver">больше<br>&#129045;</button>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-link" id="btnRetry">Заново</button>
+                        <button class="btn start" id="btnStart">Начать</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
