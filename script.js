@@ -25,7 +25,11 @@ function numberToWords(number) {
         return singleDigits[number];
     }
 
-    if (number >= 10 && number <= 19) {
+    if (number === 10) {
+        return 'десять';
+    }
+
+    if (number >= 11 && number <= 19) {
         return teens[number - 10];
     }
 
@@ -49,11 +53,8 @@ function numberToWords(number) {
         }
     }
 
-    // Если словесное представление числа превышает 20 символов, вернуть исходное числовое значение
     return number.toString();
 }
-
-
 document.getElementById('btnRetry').addEventListener('click', function () {
     orderNumber = 0;
     orderNumberField.innerText = orderNumber;
@@ -123,6 +124,7 @@ document.getElementById('btnOver').addEventListener('click', function over() {
             }       
         }
     }
+    console.log('btnOver' + minValue + '/' + maxValue);
 });
 
 document.getElementById('btnEqual').addEventListener('click', function () {
