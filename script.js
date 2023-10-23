@@ -14,7 +14,7 @@ function numberToWords(number) {
     const hundreds = ['', 'сто', 'двести', 'триста', 'четыреста', 'пятьсот', 'шестьсот', 'семьсот', 'восемьсот', 'девятьсот'];
 
     if (number === 0) {
-        return 'Ноль';
+        return 'ноль';
     }
 
     if (number < 0) {
@@ -47,15 +47,13 @@ function numberToWords(number) {
 
 
 document.getElementById('btnRetry').addEventListener('click', function () {
-    minValue = document.querySelector('.fisrtValue').value || 0;;
-    minValue = (minValue > 999) ? 999 : (minValue < -999) ? -999 : minValue;
-    maxValue = document.querySelector('.secondValue').value || 999;
-    maxValue = (maxValue > 999) ? 999 : (maxValue < -999) ? -999 : maxValue;
-    gameRun = true;
-    orderNumber = 1;
+    orderNumber = 0;
     orderNumberField.innerText = orderNumber;
-    answerNumber = Math.floor((minValue + maxValue) / 2);
-    answerField.textContent = `Загадайте любое целое число от ${minValue} до ${maxValue}, а я его угадаю`;
+    document.querySelector('.fisrtValue').value = ''; // очистка значения первого поля ввода
+    document.querySelector('.secondValue').value = ''; // очистка значения второго поля ввода
+    minValue = 0;
+    maxValue = 0;
+    answerField.textContent = `Введие 2 числа, сначала нижнию границу, потом верхнию`;
 })
 
 document.getElementById('btnLess').addEventListener('click', function less() { // Код кнопки «Меньше»
@@ -99,7 +97,6 @@ document.getElementById('btnOver').addEventListener('click', function over() {
             gameRun = false;
         } else {
             answerNumber = Math.floor((minValue + maxValue) / 2);
-            console.log(answerNumber);
             minValue = answerNumber + 1;
             orderNumber++;
             orderNumberField.innerText = orderNumber;
@@ -136,6 +133,8 @@ document.getElementById('btnStart').addEventListener('click', function () {
     minValue = (minValue > 999) ? 999 : (minValue < -999) ? -999 : minValue;
     maxValue = document.querySelector('.secondValue').value || 999;
     maxValue = (maxValue > 999) ? 999 : (maxValue < -999) ? -999 : maxValue;
+    minValue = parseInt(minValue);
+    maxValue = parseInt(maxValue);
     gameRun = true;
     orderNumber = 1;
     orderNumberField.innerText = orderNumber;
