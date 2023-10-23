@@ -56,65 +56,77 @@ document.getElementById('btnRetry').addEventListener('click', function () {
     answerField.textContent = `Введие 2 числа, сначала нижнию границу, потом верхнию`;
 })
 
-document.getElementById('btnLess').addEventListener('click', function less() { // Код кнопки «Меньше»
-    if (gameRun) { 
+document.getElementById('btnLess').addEventListener('click', function less() {
+    if (gameRun) {
+        if (minValue >= maxValue) {
+            const phraseRandom = Math.round(Math.random() * 3);
+            const answerPhrase = (phraseRandom === 1) ?
+                'Вы загадали неправильное число!\n\u{1F914}' :
+                'Вы неверно задали число, введите сначала нижнию, а потом верхнию границы\n\u{1F92F}';
+            answerField.innerText = answerPhrase;
+            gameRun = false;
+        } else {
+            console.log('Шаг 1 minValue, maxValue ' + minValue + '/' + maxValue);
+            console.log('Шаг 1 answerNumber ' + answerNumber);
+            answerNumber = Math.floor((minValue + maxValue) / 2);
+            console.log('Шаг 2 answerNumber' + answerNumber);
+            orderNumber++;
+            orderNumberField.innerText = orderNumber;
+            const phraseRandom = Math.round(Math.random() * 3);
+            const randomQuest = (phraseRandom === 1) ?
+                'Я прожил уже миллионы жизней, мне твое число абсолютно понятно это:' :
+                'Элементарно, Ватсон, это:';
+                'Смею предположить, что числом будет являться:';
+
+            if (numberToWords(answerNumber).length < 20) {
+                answerField.textContent = randomQuest + ' ' + numberToWords(answerNumber);
+            } else {
+                answerField.innerText = randomQuest + ' ' + answerNumber;
+            }
+
+            if (minValue !== maxValue) {
+                maxValue = answerNumber;
+            }
+            console.log('Шаг 2 minValue, maxValue ' + minValue + '/' + maxValue);
+        }
+    }
+});
+
+
+document.getElementById('btnOver').addEventListener('click', function over() {
+    if (gameRun) {
         if (minValue === maxValue) {
             const phraseRandom = Math.round(Math.random() * 3);
             const answerPhrase = (phraseRandom === 1) ?
-                `Вы загадали неправильное число!\n\u{1F914}` :
-                `Я сдаюсь..\n\u{1F92F}`;
+                'Вы загадали неправильное число!\n\u{1F914}' :
+                'Я сдаюсь..\n\u{1F92F}';
             answerField.innerText = answerPhrase;
             gameRun = false;
         } else {
-            maxValue = answerNumber + 1;
+            console.log('Шаг 1 minValue, maxValue ' + minValue + '/' + maxValue);
+            console.log('Шаг 1 answerNumber ' + answerNumber);
             answerNumber = Math.floor((minValue + maxValue) / 2);
+            console.log('Шаг 2 answerNumber' + answerNumber);
             orderNumber++;
             orderNumberField.innerText = orderNumber;
             const phraseRandom = Math.round(Math.random() * 3);
-            const randomQuest = (phraseRandom === 1) ? // Вопросы отображаются не менее чем в трех вариантах
-                `Я прожил уже миллионы жизней, мне твое число абсолютно понятно это: ` :
-                `Элементарно, Ватсон, это: `;
-                `Смею предположить, что числом будет являться: `;
+            const randomQuest = (phraseRandom === 1) ?
+                'Я прожил уже миллионы жизней, мне твое число абсолютно понятно это:' :
+                'Элементарно, Ватсон, это:';
+            'Смею предположить, что числом будет являться:';
 
             if (numberToWords(answerNumber).length < 20) {
                 answerField.textContent = randomQuest + ' ' + numberToWords(answerNumber);
             } else {
                 answerField.innerText = randomQuest + ' ' + answerNumber;
             }
-            
+
+            minValue = answerNumber + 1; // обновление minValue
+            console.log('Шаг 2 minValue, maxValue ' + minValue + '/' + maxValue);
         }
     }
-})
+});
 
-document.getElementById('btnOver').addEventListener('click', function over() {
-    if (gameRun){
-        if (minValue === maxValue){
-            const phraseRandom = Math.round( Math.random());
-            const answerPhrase = (phraseRandom === 1) ?
-                `Вы загадали неправильное число!\n\u{1F914}` :
-                `Я сдаюсь..\n\u{1F92F}`;
-            answerField.innerText = answerPhrase;
-            gameRun = false;
-        } else {
-            answerNumber = Math.floor((minValue + maxValue) / 2);
-            minValue = answerNumber + 1;
-            orderNumber++;
-            orderNumberField.innerText = orderNumber;
-            const phraseRandom = Math.round(Math.random() * 3); 
-            const randomQuest = (phraseRandom === 1) ? // Вопросы отображаются не менее чем в трех вариантах
-                `Я прожил уже миллионы жизней, мне твое число абсолютно понятно это: ` :
-                `Элементарно, Ватсон, это: `;
-                `Смею предположить, что числом будет являться: `;
-
-            if (numberToWords(answerNumber).length < 20) {
-                answerField.textContent = randomQuest + ' ' + numberToWords(answerNumber);
-            } else {
-                answerField.innerText = randomQuest + ' ' + answerNumber;
-            }
-            
-        }
-    }
-})
 
 document.getElementById('btnEqual').addEventListener('click', function () {
     if (gameRun) {
@@ -135,10 +147,14 @@ document.getElementById('btnStart').addEventListener('click', function () {
     maxValue = (maxValue > 999) ? 999 : (maxValue < -999) ? -999 : maxValue;
     minValue = parseInt(minValue);
     maxValue = parseInt(maxValue);
-    gameRun = true;
-    orderNumber = 1;
-    orderNumberField.innerText = orderNumber;
-    answerNumber = Math.floor((minValue + maxValue) / 2);
-    answerField.textContent = `Загадайте любое целое число от ${minValue} до ${maxValue}, а я его угадаю`;
+    if (minValue >= maxValue) {
+        answerField.textContent = `Вы задали числа неправильно, нажмите кнопку "Заново" и введите сначала нижнию границу, а потом верхнию для начала игры`;
+    } else {
+        orderNumber = 1;
+        orderNumberField.innerText = orderNumber;
+        answerNumber = Math.floor((minValue + maxValue) / 2);
+        answerField.textContent = `Загадайте любое целое число от ${minValue} до ${maxValue}, а я его угадаю`;
+        gameRun = true;
+    }
 })
 
