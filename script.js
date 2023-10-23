@@ -32,13 +32,21 @@ function numberToWords(number) {
     if (number >= 20 && number < 100) {
         const tensDigit = Math.floor(number / 10);
         const singleDigit = number % 10;
-        return tens[tensDigit] + ' ' + singleDigits[singleDigit];
+        if (singleDigit === 0) {
+            return tens[tensDigit];
+        } else {
+            return tens[tensDigit] + ' ' + singleDigits[singleDigit];
+        }
     }
 
     if (number >= 100 && number < 1000) {
         const hundredsDigit = Math.floor(number / 100);
         const remainingNumber = number % 100;
-        return hundreds[hundredsDigit] + ' ' + numberToWords(remainingNumber);
+        if (remainingNumber === 0) {
+            return hundreds[hundredsDigit];
+        } else {
+            return hundreds[hundredsDigit] + ' ' + numberToWords(remainingNumber);
+        }
     }
 
     // Если словесное представление числа превышает 20 символов, вернуть исходное числовое значение
@@ -53,7 +61,7 @@ document.getElementById('btnRetry').addEventListener('click', function () {
     document.querySelector('.secondValue').value = ''; // очистка значения второго поля ввода
     minValue = 0;
     maxValue = 0;
-    answerField.textContent = `Введие 2 числа, сначала нижнию границу, потом верхнию`;
+    answerField.textContent = `Введие 2 числа, сначала нижнию границу, потом верхнюю и нажмить "Начать"`;
 })
 
 document.getElementById('btnLess').addEventListener('click', function less() {
@@ -61,15 +69,12 @@ document.getElementById('btnLess').addEventListener('click', function less() {
         if (minValue >= maxValue) {
             const phraseRandom = Math.round(Math.random() * 3);
             const answerPhrase = (phraseRandom === 1) ?
-                'Вы загадали неправильное число!\n\u{1F914}' :
-                'Вы неверно задали число, введите сначала нижнию, а потом верхнию границы\n\u{1F92F}';
+                'Давай попробуем другие числа!\n\u{1F914}' :
+                'Я сдаюсь..\n\u{1F92F}';
             answerField.innerText = answerPhrase;
             gameRun = false;
         } else {
-            console.log('Шаг 1 minValue, maxValue ' + minValue + '/' + maxValue);
-            console.log('Шаг 1 answerNumber ' + answerNumber);
             answerNumber = Math.floor((minValue + maxValue) / 2);
-            console.log('Шаг 2 answerNumber' + answerNumber);
             orderNumber++;
             orderNumberField.innerText = orderNumber;
             const phraseRandom = Math.round(Math.random() * 3);
@@ -87,46 +92,38 @@ document.getElementById('btnLess').addEventListener('click', function less() {
             if (minValue !== maxValue) {
                 maxValue = answerNumber;
             }
-            console.log('Шаг 2 minValue, maxValue ' + minValue + '/' + maxValue);
         }
     }
 });
-
 
 document.getElementById('btnOver').addEventListener('click', function over() {
     if (gameRun) {
         if (minValue === maxValue) {
             const phraseRandom = Math.round(Math.random() * 3);
             const answerPhrase = (phraseRandom === 1) ?
-                'Вы загадали неправильное число!\n\u{1F914}' :
+                'Давай попробуем другие числа!\n\u{1F914}' :
                 'Я сдаюсь..\n\u{1F92F}';
             answerField.innerText = answerPhrase;
             gameRun = false;
         } else {
-            console.log('Шаг 1 minValue, maxValue ' + minValue + '/' + maxValue);
-            console.log('Шаг 1 answerNumber ' + answerNumber);
+            minValue = answerNumber + 1;
             answerNumber = Math.floor((minValue + maxValue) / 2);
-            console.log('Шаг 2 answerNumber' + answerNumber);
             orderNumber++;
             orderNumberField.innerText = orderNumber;
             const phraseRandom = Math.round(Math.random() * 3);
             const randomQuest = (phraseRandom === 1) ?
                 'Я прожил уже миллионы жизней, мне твое число абсолютно понятно это:' :
                 'Элементарно, Ватсон, это:';
-            'Смею предположить, что числом будет являться:';
+                'Смею предположить, что числом будет являться:';
 
             if (numberToWords(answerNumber).length < 20) {
                 answerField.textContent = randomQuest + ' ' + numberToWords(answerNumber);
             } else {
                 answerField.innerText = randomQuest + ' ' + answerNumber;
-            }
-
-            minValue = answerNumber + 1; // обновление minValue
-            console.log('Шаг 2 minValue, maxValue ' + minValue + '/' + maxValue);
+            }       
         }
     }
 });
-
 
 document.getElementById('btnEqual').addEventListener('click', function () {
     if (gameRun) {
